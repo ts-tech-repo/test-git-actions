@@ -1,0 +1,19 @@
+name: Deploy to Server
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  deploy:
+    runs-on: ubuntu-24.04
+
+    steps:
+      - name: Git pull on remote server
+        run: |
+          ssh -o StrictHostKeyChecking=no ${{ secrets.SSH_USER_STAGE }}@${{ secrets.SSH_HOST_STAGE }} << 'EOF'
+            cd /home/mounika/test-git-actions
+            git pull origin master
+            echo "✅ Code pulled successfully from GitHub!"
+          EOF
